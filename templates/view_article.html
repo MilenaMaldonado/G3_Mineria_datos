@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ article.title }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Estilo para la barra lateral */
+        .sidebar {
+            position: -webkit-sticky; /* Safari */
+            position: sticky;
+            top: 0;
+            height: 100%;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .sidebar h5 {
+            color: #dc3545; /* Rojo o rosado */
+            font-size: 0.875rem; /* Tamaño de letra pequeño */
+        }
+        .sidebar p, .sidebar ul {
+            font-size: 0.875rem; /* Tamaño de letra pequeño */
+        }
+        .sidebar .card {
+            margin-bottom: 1rem;
+        }
+        .card-body p {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="width: 50px; height: auto;">
+            Blog de Artículos
+        </a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Página de Inicio</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Barra lateral -->
+            <div class="col-md-4 sidebar">
+                <!-- Resumen -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Resumen</h5>
+                        <p>{{ summary }}</p>
+                    </div>
+                </div>
+
+                <!-- Análisis de Sentimientos -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Análisis de Sentimientos</h5>
+                        <p><strong>Sentimiento:</strong> {{ sentiment_info.sentiment }}</p>
+                        <p><strong>Polaridad:</strong> {{ sentiment_info.polarity }}</p>
+                        <p><strong>Subjetividad:</strong> {{ sentiment_info.subjectivity }} ({{ sentiment_info.subjectivity_description }})</p>
+                    </div>
+                </div>
+
+                <!-- Entidades Clave Extraídas -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Entidades Clave Extraídas:</h5>
+                        <ul>
+                            {% for entity, label in entities %}
+                                <li>{{ entity }} ({{ label }})</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenido del artículo -->
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h1 class="card-title">{{ article.title }}</h1>
+                        <h5 class="card-subtitle mb-2 text-muted">Autores: {{ article.authors | join(', ') }} | Año: {{ article.year }}</h5>
+                        <p class="card-text">{{ article.text }}</p>
+                        <!-- Botón que regresa a la página principal -->
+                        <a href="/" class="btn btn-primary">Volver</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pie de página -->
+    <footer class="bg-light py-3">
+        <div class="container text-center">
+            <p>&copy; 2024 Blog de Artículos. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
